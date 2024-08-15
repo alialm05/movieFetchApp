@@ -1,7 +1,7 @@
 function Footer() {
     return(
         <footer className="footer">
-            <hr></hr>
+            <hr  className="opacity-10"></hr>
             <p className="footer-text">
                 MovieFetch &copy; {new Date().getFullYear()}
             </p>

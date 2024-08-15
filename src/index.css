@@ -1,3 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -15,11 +20,12 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: #e8e9ff;
   text-decoration: inherit;
 }
 a:hover {
   color: #535bf2;
+  transition: .5s;
 }
 
 body {
@@ -30,7 +36,7 @@ body {
   min-height: 100vh;
 }
 
-div {
+div .page {
   width: 100%;
 }
 
@@ -103,7 +109,7 @@ button:focus-visible {
 
 .navList li {
   display: inline-block;
-  margin-right: 1rem; /* add spacing between items */
+  margin-right: 1rem; 
   font-size: larger;
 
 }
@@ -114,28 +120,33 @@ button:focus-visible {
 
 .card {
   border: 1px solid rgba(0, 0, 0, 0.275);
-  border-radius: 10px;
+  border-radius: 20px;
+  display: flex;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.052);
-  padding: 2rem;
-  margin: 1rem;
+  max-width: 15rem;
+  padding: 1rem;
+  padding-bottom: 0;
+  margin: .05rem;
+  margin-bottom: 0;
   text-align: center;
-  max-width: 250px;
-  display: inline-block;
   background: linear-gradient(#ffffff00, #00000018);
+  overflow-wrap: break-word;
+
 }
 
 .card .card-image {
-  max-width: 40%;
-  max-height: max-content;
-  height: fit-content;
+  max-height: min-content;
   border-radius: 10%;
-  margin-bottom: 1rem;
+  margin-bottom: 0rem;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
 
 }
 
 .card .card-title {
   font-family: sans-serif;
-  margin: 0;
+  margin: 1rem;
   color: hsl(0, 0, 20%);
 }
 
@@ -151,10 +162,17 @@ button:focus-visible {
 
 .movie-list li {
   display: inline-block;
-  margin-right: .5rem; /* add spacing between items */
+  margin-right: .5rem; 
 }
 
+.genre-list {
+  list-style: none;
+}
 
+.genre-list li {
+  display: inline-block;
+  margin-right: .5rem; 
+}
 
 .search-bar-container {
   list-style: none;
@@ -164,6 +182,9 @@ button:focus-visible {
 
 .search-bar-container li {
   display: inline-block;
-  margin-right: .5rem; /* add spacing between items */
+  margin-right: .5rem;
 }
 
+.movie-page img {
+  max-width: 100%;
+}

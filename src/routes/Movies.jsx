@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import Card from "./Card"
+import Card from "../components/Card"
 import propTypes from 'prop-types';
-import Header from "./Header";
-import Footer from "./Footer";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 import { useParams } from "react-router-dom";
 
 const imgUrl = "https://image.tmdb.org/t/p/original/"
@@ -97,8 +97,11 @@ function Movies(props = defaultProps){
         movies.map((movie, i) => {   
             components.push(<li key={i}>
                 <Card title={movie.title} desc={movie.overview}
-                img={imgUrl+movie.poster_path} rating = {movie.vote_average}
-                releaseYear={movie.release_date? movie.release_date.substring(0,4) : ""}/>
+                img={movie.poster_path && imgUrl+movie.poster_path || null} 
+                rating = {movie.vote_average}
+                releaseYear={movie.release_date? movie.release_date.substring(0,4) : ""}
+                id = {movie.id}
+                />
             </li>)
         })
     }
@@ -124,14 +127,16 @@ function Movies(props = defaultProps){
 
             <div className="page-toggle">
                 <button 
-                className="back"
+                className=
+                "text-white bg-zinc-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-zinc-600-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-zinc-900 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
                 onClick={() => TogglePage(page - 1)}
                 >
                     back
                 </button>
             
                 <button 
-                className="next"
+                className=
+                "text-white bg-zinc-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-zinc-600-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-zinc-900 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
                 onClick={() => TogglePage(page + 1)}
                 >
                     next

@@ -41,12 +41,20 @@ function SearchBar ({setResults}) {
 
   
     return (
-        <div className="input-wrapper">
-            <FaSearch id="search-icon" />
-            <input placeholder="Type to search ..." 
-            value={input} 
-            onChange={(e) => handleChange(e.target.value)} />
+        <div className="flex flex-col items-center justify-center">
+            <div className=
+            "flex flex-row items-center justify-center bg-white w-4/6 rounded-full px-5 my-3 mb-10">
+            
+            
+                <FaSearch id="search-icon" />
+                <input className=
+                "block w-full h-full rounded-md border-0 py-3 pl-7 pr-20 text-gray-600 md:text-sm md:leading-6"
+                placeholder="Type to search ..." 
+                value={input} 
+                onChange={(e) => handleChange(e.target.value)} />
+            </div>
         </div>
+        
     )
 }
 

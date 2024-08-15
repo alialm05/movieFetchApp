@@ -1,9 +1,9 @@
 import { useState } from "react";
-import Footer from "./Footer";
-import Header from "./Header";
-import Card from "./Card";
-import SearchBar from "./SearchBar";
-import SearchResult from "./SearchResultList";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import Card from "../components/Card";
+import SearchBar from "../components/SearchBar";
+import SearchResult from "../components/SearchResultList";
 
 const imgUrl = "https://image.tmdb.org/t/p/original/"
 const BaseUrl = 'https://api.themoviedb.org/3/search/movie';
@@ -32,6 +32,7 @@ function Search(){
                 img={movie.poster_path && imgUrl+movie.poster_path || null} 
                 rating = {movie.vote_average}
                 releaseYear={movie.release_date? movie.release_date.substring(0,4) : ""}
+                id={movie.id}
                 />
 
             </li>)
@@ -41,7 +42,7 @@ function Search(){
     // Search Bar component will handle result state change
 
     return (
-        <div>
+        <div className="w-screen items-center justify-center">
             <Header/>
             
             <SearchBar setResults={setResults}/>
