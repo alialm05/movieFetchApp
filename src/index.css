@@ -124,10 +124,11 @@ button:focus-visible {
   display: flex;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.052);
   max-width: 15rem;
+  max-height: 20rem;
   padding: 1rem;
   padding-bottom: 0;
-  margin: .05rem;
-  margin-bottom: 0;
+  margin: .1rem;
+  margin-bottom: 0rem;
   text-align: center;
   background: linear-gradient(#ffffff00, #00000018);
   overflow-wrap: break-word;

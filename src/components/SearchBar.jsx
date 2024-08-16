@@ -3,6 +3,8 @@ import { FaSearch } from "react-icons/fa"
 import "./search-bar.css"
 import Card from "./Card";
 
+let timer;
+
 const BaseUrl = 'https://api.themoviedb.org/3/search/movie';
 const options = {
   method: 'GET',
@@ -13,30 +15,50 @@ const options = {
 };
 
 
+
 function SearchBar ({setResults}) {
 
     const [input, setInput] = useState("");
+
 
     const fetchData = (inputKeyWord) => {
         
         fetch(`${BaseUrl}?query=${inputKeyWord}&page=1`, options)
         .then((response) => response.json())
         .then(json => {
-            console.log(json)
+            //console.log(json)
             setResults(json.results) // HANDLE RESULTS STATE CHANGE for parent compoenent (Search)
         })
     }
 
-    const handleChange = (val) => {
-        
-        setInput(val);
+    window.addEventListener('keyup', (e) => {
 
-        if (val.trim() != ""){
-            fetchData(val);
+        if (!input){
+            return
         }
-        else {
-            setResults([]) // HANDLE RESULTS STATE CHANGE for parent compoenent (Search)
+        if (input.trim() === ""){
+            return
         }
+
+        // Clear timer
+        if (timer) {
+            clearTimeout(timer);    
+        }
+
+        // Wait for X ms and then process the request
+        timer = setTimeout(() => {
+            //console.log(input)
+            if (input.trim() != ""){
+                fetchData(input);
+            }
+            else {
+                setResults([]) // HANDLE RESULTS STATE CHANGE for parent compoenent (Search)
+            }
+        }, 400);
+    });
+
+    const handleChange = (val) => {
+        setInput(val);
     }
 
   
@@ -52,6 +74,7 @@ function SearchBar ({setResults}) {
                 placeholder="Type to search ..." 
                 value={input} 
                 onChange={(e) => handleChange(e.target.value)} />
+
             </div>
         </div>
         
