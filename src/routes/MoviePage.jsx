@@ -56,8 +56,13 @@ function MoviePage() {
             );
             
             const recArray = await response.json()
-            //console.log(recArray.results.slice(0,4))
-            setRecommendations((recArray.results.slice(0,5)))
+            console.log(recArray)
+            
+            if (recArray){
+                if (recArray.results){
+                    setRecommendations((recArray.results.slice(0,5)))
+                }
+            }
             
         }
             catch (e) {

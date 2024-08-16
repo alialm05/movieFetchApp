@@ -19,17 +19,21 @@ function Card(props = defaultProps){
         )
     }
     else{
+        //console.log(props.id)
         return(
             <div>
                 <div className="card">
-                    <Link className='m-0 py-0 h-full w-40 grid' key={props.id} to={`/movie_page/${props.id}`}>
-            
-                        <img className=
-                        "w-full object-contain min-h-60 h-full max-h-60 rounded-xl hover:scale-105 transform transition duration-300" 
+                    <Link className='m-0 py-0 h-full w-48 grid rounded-md' key={props.id} to={`/movie_page/${props.id}`}>
                         
-                        alt="Movie Poster" 
-                        
-                        src={props.img && props.img ||  defaultProps.img}/>
+                        <div className='m-0'>
+
+                            <img className=
+        "w-full object-contain min-h-60 h-full max-h-60 rounded-xl hover:scale-105 transform transition duration-300" 
+                            
+                            alt="Movie Poster" 
+                            src={props.img && props.img ||  defaultProps.img}/>
+                            
+                        </div>
                         
                         <h2 className=
                         "hover:text-purple-600 text-white py-2 text-ellipsis overflow-hidden truncate">{props.title}</h2>
@@ -45,7 +49,7 @@ function Card(props = defaultProps){
                         || !props.rating && "⭐" + defaultProps.rating}
                         
                         </p>
-                    <p className="text-neutral-600 flex items-center justify-center">
+                    <p className="text-neutral-600 flex items-center justify-center mb-5">
                         {props.releaseYear && props.releaseYear}
                         {!props.releaseYear && "N/A"}
                     </p>

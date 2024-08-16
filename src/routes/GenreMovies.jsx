@@ -87,7 +87,8 @@ function GenreMovies(props = defaultProps){
                 <Card title={movie.title} desc={movie.overview}
                 img={movie.poster_path && imgUrl+movie.poster_path || null}
                 rating = {movie.vote_average}
-                releaseYear={movie.release_date? movie.release_date.substring(0,4) : ""}/>
+                releaseYear={movie.release_date? movie.release_date.substring(0,4) : ""}
+                id = {movie.id}/>
             </li>)
         })
     }
