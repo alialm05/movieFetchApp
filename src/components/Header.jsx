@@ -22,7 +22,7 @@ function Header(props) {
             {!props.excludeTitle && 
             <div>
             <h1>
-            Movie Search App
+            Movies 2 Watch 🍿
             </h1>
 
             <nav className="m-4">
