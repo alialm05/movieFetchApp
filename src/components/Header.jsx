@@ -28,6 +28,7 @@ function Header(props) {
             <nav className="m-4">
                 <ul className="top-0 m-0 flex flex-row items-center justify-center">
                     <NavButton linkto={"/popular"} text="Featured"/>
+                    <NavButton linkto={"/upcoming"} text="Upcoming"/>
                     <NavButton linkto={"/search"} text="Search"/>
                     <NavButton linkto={"/top_rated"} text="Top Rated"/>
                     <NavButton linkto={"/genres"} text="Genres"/>
