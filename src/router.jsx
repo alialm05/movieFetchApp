@@ -2,8 +2,9 @@ import App from './App.jsx'
 import GenreMovies from './routes/GenreMovies.jsx'
 import Genres from './routes/Genres.jsx'
 import MoviePage from './routes/MoviePage.jsx'
-import Movies from "./routes/Movies"
+import Movies from "./routes/Movies.jsx"
 import Search from "./routes/Search.jsx"
+import Login from "./routes/Login.jsx"
 
 import { createBrowserRouter } from "react-router-dom"
 
@@ -16,4 +17,5 @@ export const router = createBrowserRouter([
   {path: "/genres", element : <Genres/>},
   {path: "/genres/:genreid", element : <GenreMovies/>},
   {path: "/movie_page/:movieid", element : <MoviePage/>},
+  {path: "/login", element : <Login/>},
 ],)

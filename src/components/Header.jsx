@@ -32,6 +32,7 @@ function Header(props) {
                     <NavButton linkto={"/search"} text="Search"/>
                     <NavButton linkto={"/top_rated"} text="Top Rated"/>
                     <NavButton linkto={"/genres"} text="Genres"/>
+                    <NavButton linkto={"/login"} text="Login/Signup"/>
                 </ul>
             </nav>
             <hr className="opacity-10 mb-10"></hr>
@@ -47,6 +48,7 @@ function Header(props) {
                         <NavButton linkto={"/search"} text="Search"/>
                         <NavButton linkto={"/top_rated"} text="Top Rated"/>
                         <NavButton linkto={"/genres"} text="Genres"/>
+                        <NavButton linkto={"/login"} text="Login/Signup"/>
                     </ul>
                 </nav>
                 <hr className="opacity-10"></hr>

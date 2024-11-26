@@ -1,5 +1,5 @@
 
-import Header from "../components/Header";
+import Header from "../components/Header.jsx";
 import Card from "../components/Card.jsx";
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
@@ -125,15 +125,15 @@ function MoviePage() {
 
                 <section className="font-medium my-5">
                     
-                    <h1 className="stroke-black font-bold my-5">{movie && movie.title || "Movie Not Found"}</h1>
+                    <h1 className="stroke-black text-white font-bold my-5">{movie && movie.title || "Movie Not Found"}</h1>
                     <p className="flex items-start justify-center opacity-30 font-normal">
                         {(movie && movie.tagline) &&  `\"${movie.tagline}\"` || ""}</p>
                     
-                    <div className="flex flex-col items-center justify-center text-center mx-64 my-8">
+                    <div className="flex flex-col items-center justify-center text-center text-white mx-64 my-8 ">
                     {movie && movie.overview || "Movie Description not Available"}
                     </div>
 
-                    <ul className="flex flex-wrap flex-row items-center justify-center my-16 mx-20">
+                    <ul className="flex flex-wrap flex-row items-center text-white justify-center my-16 mx-20">
                         
                         <div className=
                         "flex flex-col items-center justify-center text-center mx-32 my-6">
@@ -174,7 +174,7 @@ function MoviePage() {
 
                 <section className="font-medium my-20">
 
-                    <label className="opacity-80 flex items-center justify-center mt-5 mb-20 text-4xl">Recommendations</label>
+                    <label className="opacity-80 flex items-center justify-center text-white mt-5 mb-20 text-4xl ">Recommendations</label>
 
 
                     <ul className="flex flex-row items-center justify-center my-3">
