@@ -1,5 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+
+import AuthContext from "../context/AuthProvider";
 
 function NavButton({linkto, text}) {
 
@@ -15,6 +18,9 @@ function NavButton({linkto, text}) {
 }
 
 function Header(props) {
+
+    const {auth} = useContext(AuthContext);
+
     return(
         <header className=
         "top-0 text-lg font-bold tracking-tight text-white sm:text-2xl items-center">
@@ -32,7 +38,9 @@ function Header(props) {
                     <NavButton linkto={"/search"} text="Search"/>
                     <NavButton linkto={"/top_rated"} text="Top Rated"/>
                     <NavButton linkto={"/genres"} text="Genres"/>
-                    <NavButton linkto={"/login"} text="Login/Signup"/>
+                    
+                    {<NavButton linkto={"/login"} text="Login/Signup"/>}
+                
                 </ul>
             </nav>
             <hr className="opacity-10 mb-10"></hr>

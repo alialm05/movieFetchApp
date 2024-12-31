@@ -7,6 +7,7 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import PasswordFeild from "../components/PasswordFeild";
 import AuthContext from "../context/AuthProvider";
+import useRefreshToken from "../hooks/useRefreshToken";
 
 const SIGNIN_URL = '/api/signin'
 
@@ -87,6 +88,13 @@ function Login(){
                 onClick={handleSubmit}
                 >
                     Login
+                </button>
+
+                <button className=
+                "flex flex-row items-center justify-center w-fit rounded-full px-5 my-3 mb-10"
+                onClick={useRefreshToken()}
+                >
+                    Refresh
                 </button>
 
             </div>
