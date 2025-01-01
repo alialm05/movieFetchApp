@@ -1,48 +1,47 @@
-const Movie = require('../models/moviesSchema')
 const User = require('../models/userSchema')
 
 
 const getMovies = async  (req, res) => {
-    const movies = await Movie.find({}).sort({createdAt: -1})
-    const user = await User.findOne({email})
-
-    if (!user){
-        return res.status(404).json({error: "no such user"})
-    }
-
-    try
-    {  
-        movies = user.moviesSaved
-        res.status(200).json(movies)
-        //await user.populate('moviesSaved').execPopulate()
-    }
-    catch (err) {
-        res.status(404).json({error: err})
-    }
-
-}
-
-/*const getMovie = async (req, res) => {
-    const {email} = req.params
-    const movie = await Movie.findById(movieid)
-    if (!movie){
-        res.status(404).json({error: "no such movie saved"})
-    }
-
-}*/
-
-const addMovieToList = async (req, res) =>{
-    const {movieId, email} = req.body
+    const {id} = req
     
-    const user = await User.findOne({email})
-
+    const user = await User.findById({_id: id})
+    
     if (!user){
         return res.status(404).json({error: "no such user"})
     }
+
+    console.log("request success by user:", user._id)
 
     //console.log(req.body)
     try {
-        const movieList = await user.addMovieToSaved(movieId)
+        const movieList = user.moviesSaved
+        //console.log("Added Movie to list")
+        return res.status(200).json({movieList})
+    }
+    catch (err) {
+        return res.status(404).json({error: err})
+    }
+}
+
+const addMovieToList = async (req, res) =>{
+    const {id} = req
+    const {movie} = req.body
+    
+    console.log(req.body)
+    
+    const user = await User.findById({_id: id})
+
+    if (!user){
+        return res.status(404).json({error: "no such user"})
+    }
+    
+    if (!movie){
+        return res.status(404).json({error: "no such movie Id"})
+    }
+    
+    //console.log(req.body)
+    try {
+        const movieList = await user.addMovieToSaved(movie)
         //console.log("Added Movie to list")
         return res.status(200).json({movieList})
     }
@@ -52,14 +51,29 @@ const addMovieToList = async (req, res) =>{
 }
 
 const removeMovieFromList = async (req, res) => {
-    const {movieid} = req.params
-    const movie = await Movie.findByIdAndDelete(movieid)
-    if (!movie){
-        res.status(404).json({error: "no such movie to delete"})
+    const {id} = req
+    const {movie} = req.body
+
+    console.log(req.body, "\nmovie : ", movie)
+
+    const user = await User.findById({_id: id})
+    
+    if (!user){
+        return res.status(404).json({error: "no such user"})
     }
 
-    res.status(200).json({movie})
+    if (!movie){
+        return res.status(404).json({error: "no such movie"})
+    }
 
+    //console.log(req.body)
+    try {
+        const movieList = await user.removeMovieFromSaved(movie)
+        return res.status(200).json({movieList})
+    }
+    catch (err) {
+        return res.status(404).json({error: err})
+    }
 }
 
 module.exports = {

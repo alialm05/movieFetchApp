@@ -1,10 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
 
 require("dotenv").config()
-const userRouter = require('./routes/movies-saved');
+const {verifyJWT, handleRefreshToken}  = require('./controllers/JWT')
+const handleLogout = require('./controllers/logoutController')
+const moviesRouter = require('./routes/movies-saved');
 const authRouter = require('./routes/auth');
-const refreshRouter = require('./routes/refresh');
 
 const cors = require('cors');
 
@@ -17,12 +19,17 @@ const corsOptions = {
 // express app
 const app = express();
 app.use(express.json())
-console.log(process.env.FRONTEND_URL)
 app.use(cors(corsOptions))
+app.use(cookieParser()) // middleware for cookies
 
 app.use("/api", authRouter)
-app.use("/movies-saved", userRouter)
-app.use("/refresh", refreshRouter)
+app.get("/refresh", handleRefreshToken) // requests new acces token
+
+app.post("/logout", handleLogout) // handle logout
+
+app.use(verifyJWT)
+app.use("/movies-saved", moviesRouter)
+
 
 app.all('*', (req, res) => {
     res.status(404).json({message: "Route not found"})

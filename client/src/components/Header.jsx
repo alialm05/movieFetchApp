@@ -23,11 +23,11 @@ function Header(props) {
 
     return(
         <header className=
-        "top-0 text-lg font-bold tracking-tight text-white sm:text-2xl items-center">
+        "top-0 text-lg font-bold tracking-tight text-white sm:text-2xl items-center w-screen">
             
             {!props.excludeTitle && 
             <div>
-            <h1>
+            <h1 className="text-6xl text-center font-bold pt-3">
             Movies 2 Watch 🍿
             </h1>
 
@@ -38,8 +38,9 @@ function Header(props) {
                     <NavButton linkto={"/search"} text="Search"/>
                     <NavButton linkto={"/top_rated"} text="Top Rated"/>
                     <NavButton linkto={"/genres"} text="Genres"/>
+                    <NavButton linkto={"/movies_saved"} text="Movies Saved"/>
                     
-                    {<NavButton linkto={"/login"} text="Login/Signup"/>}
+                    {!auth.accessToken && <NavButton linkto={"/login"} text="Login/Signup"/>}
                 
                 </ul>
             </nav>
@@ -56,7 +57,7 @@ function Header(props) {
                         <NavButton linkto={"/search"} text="Search"/>
                         <NavButton linkto={"/top_rated"} text="Top Rated"/>
                         <NavButton linkto={"/genres"} text="Genres"/>
-                        <NavButton linkto={"/login"} text="Login/Signup"/>
+                        {!auth.accessToken && <NavButton linkto={"/login"} text="Login/Signup"/>}
                     </ul>
                 </nav>
                 <hr className="opacity-10"></hr>

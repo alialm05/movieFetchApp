@@ -32,8 +32,9 @@ function Login(){
         )
         .then(response => {
             if (response.status === 200){
-                const accessToken = response.data?.token;
-                setAuth({email, password, accessToken});
+                const accessToken = response.data?.accessToken;
+                
+                setAuth({email, accessToken});
                 console.log(accessToken)
                 setErrorMsg("")
                 navigate('/popular')
@@ -88,13 +89,6 @@ function Login(){
                 onClick={handleSubmit}
                 >
                     Login
-                </button>
-
-                <button className=
-                "flex flex-row items-center justify-center w-fit rounded-full px-5 my-3 mb-10"
-                onClick={useRefreshToken()}
-                >
-                    Refresh
                 </button>
 
             </div>

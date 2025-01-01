@@ -3,7 +3,7 @@ const { StatusCodes } = require("http-status-codes")
 const User = require('../models/userSchema')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
-const shortid = require('shortid')
+//const shortid = require('shortid')
 
 require("dotenv").config()
 
@@ -71,8 +71,18 @@ const signIn = async (req, res) => {
             return res.status(StatusCodes.BAD_REQUEST).json({message: "Username or Password is incorrect!"})
         }
 
-        const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn: "30d"})
-        return res.status(StatusCodes.OK).json({token})
+        const accessToken = jwt.sign({id: user._id}, process.env.JWT_SECRET_ACCESS, {expiresIn: "15m"});
+        const refreshToken = jwt.sign({id: user._id}, process.env.JWT_SECRET_REFRESH, {expiresIn: "30d"});
+
+        res.cookie(
+            'refreshToken', 
+            refreshToken,
+            {httpOnly: true})
+
+        user.refreshToken = refreshToken
+        await user.save()
+        
+        return res.status(StatusCodes.OK).json({accessToken: accessToken})
         
 
     } catch (error) {

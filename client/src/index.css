@@ -159,12 +159,13 @@ button:focus-visible {
 }
 
 .movie-list {
-  list-style: none;
+  align-items: center;
+  justify-content: center;
 }
 
 .movie-list li {
   display: inline-block;
-  margin-right: .5rem; 
+  margin-right: .5rem;
 }
 
 .genre-list {
