@@ -24,8 +24,7 @@ app.use(cookieParser()) // middleware for cookies
 
 app.use("/api", authRouter)
 app.get("/refresh", handleRefreshToken) // requests new acces token
-
-app.post("/logout", handleLogout) // handle logout
+app.get("/logout", handleLogout) // handle logout
 
 app.use(verifyJWT)
 app.use("/movies-saved", moviesRouter)

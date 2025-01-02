@@ -10,7 +10,7 @@ const verifyJWT = (req, res, next) => {
     
     if (!authHeader){
         console.log("No auth header")
-        return res.status(401).json({message: "User not authenticated or something went wrong"})
+        return res.status(403).json({message: "User not authenticated or something went wrong"})
     }
 
     const token = authHeader.split(' ')[1]
@@ -28,24 +28,28 @@ const verifyJWT = (req, res, next) => {
     })
 }
 
+
 const handleRefreshToken = (req, res) => {
 
     const cookies = req.cookies
     
     if (!cookies){
+        console.log("No cookies")
         return res.status(401).json({message: "No cookies"})
     }
 
     const refreshToken = cookies.refreshToken
 
     if (!refreshToken){
-        return res.status(401).json({message: "User not authenticated"})
+        return res.status(403).json({message: "User not authenticated"})
     }
+    
+    console.log("refresh token: ", refreshToken)
 
     try {
         
         jwt.verify(refreshToken, process.env.JWT_SECRET_REFRESH, (err, decoded) => {
-            const accessToken = jwt.sign({id: decoded.id}, process.env.JWT_SECRET_ACCESS, {expiresIn: "15m"})
+            const accessToken = jwt.sign({id: decoded.id}, process.env.JWT_SECRET_ACCESS, {expiresIn: "30m"})
             
             /*res.Header("Authorization", accessToken)
             .send(decoded.id)*/

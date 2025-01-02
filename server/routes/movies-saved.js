@@ -5,6 +5,7 @@ const {addMovieToList, removeMovieFromList, getMovie, getMovies} = require('../c
 
 // per user 
 router.get('/all', getMovies)
+router.post('/one', getMovie)
 //router.get('/:id/movieid', getMovies)
 router.post('/add', addMovieToList)
 router.post('/remove', removeMovieFromList)

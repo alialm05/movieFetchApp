@@ -35,7 +35,7 @@ function Login(){
                 const accessToken = response.data?.accessToken;
                 
                 setAuth({email, accessToken});
-                console.log(accessToken)
+                //console.log(accessToken)
                 setErrorMsg("")
                 navigate('/popular')
             }

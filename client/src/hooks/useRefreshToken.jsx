@@ -1,7 +1,6 @@
 import axios from "axios";
 import AuthContext from "../context/AuthProvider";
 import { useContext } from "react";
-import { json } from "react-router-dom";
 
 /* generates new access t oken from server, by verifying refresh token of the user */
 function useRefreshToken() {
@@ -12,11 +11,8 @@ function useRefreshToken() {
             withCredentials: true
         });
 
-        //console.log(response)
-
         setAuth(prev => {
-            //console.log(JSON.stringify(prev))
-            console.log(response.data.accessToken)
+            //console.log("got new token: ", response.data.accessToken)
             return {...prev, accessToken: response.data.accessToken}
         
         })

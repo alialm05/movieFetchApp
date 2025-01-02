@@ -53,6 +53,12 @@ userSchema.method({
     }
 })
 userSchema.method({
+    async getMovieFromList(movieId){
+        const foundMovie = this.moviesSaved.find(movie => movie.id === movieId)
+        return foundMovie
+    }
+})
+userSchema.method({
     async setRefreshToken(token){
         this.refreshToken = token
         await this.save()

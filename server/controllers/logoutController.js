@@ -2,12 +2,14 @@ const User = require('../models/userSchema')
 
 const handleLogout = async (req, res) => {
 
+    console.log("Logging out user")
     const cookies = req.cookies
     if (!cookies){
         return res.status(401).json({message: "No cookies"})
     }
 
     const refreshToken = cookies.refreshToken
+    console.log(cookies)
 
     if (!refreshToken){
         return res.status(401).json({message: "User not authenticated"})

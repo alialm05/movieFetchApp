@@ -1,8 +1,7 @@
 import Header from "../components/Header.jsx";
 import Card from "../components/Card.jsx";
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import { useParams } from "react-router-dom"
-import useAxiosAuth from "../hooks/useAxiosAuth"
 import { Icon } from "react-icons-kit";
 import { heart } from "react-icons-kit/icomoon/heart";
 
@@ -11,8 +10,8 @@ import movieImg from "../assets/movieplace.png"
 import { imgUrl } from "../info/requests.js";
 const BaseUrl = 'https://api.themoviedb.org/3/movie/';
 import options from '../info/requests.js'
-import { color } from "three/tsl";
-import { use } from "react";
+import useAxiosAuth from "../hooks/useAxiosAuth"
+import AuthContext from "../context/AuthProvider.jsx";
 
 function Heart({saved, updateMovieList}){
 
@@ -46,14 +45,20 @@ function MoviePage() {
     const [movie, setMovie] = useState()
     const [isLoading, setIsLoading] = useState(false);
     const [saved, setSaved] = useState(false)
+    const [saveDebounce, setSaveDebounce] = useState(false)
     
+    const {auth} = useContext(AuthContext)
     const axiosAuth = useAxiosAuth()
-    let heartColor = 'grey'
-
-    //console.log("movie page")
-
+    
+    
     const updateMovieList = async () => {
         
+        if (saveDebounce || !auth.accessToken){
+            return
+        }
+        setSaveDebounce(true)
+        console.log("toggling Movie save")
+
         const movieToSend = {
             id: movieid,
             title: movie.title,
@@ -67,32 +72,42 @@ function MoviePage() {
             
             await axiosAuth.post(`/movies-saved/add`, {movie: movieToSend})
                 .then((response) => {
-                    console.log(response)
-                    console.log("Movie Saved")
+                    //console.log(response)
+                    //console.log("Movie Saved")
                 })
                 .catch((error) => {
                     console.error(error)
                     //setSaved(false)
+                }).finally(() => {
+                    setTimeout(() =>{setSaveDebounce(false)}, 1000)
                 })
 
         }
         else {
             setSaved(false)
-            console.log("Removing Movie: ", movieToSend)
-            axiosAuth.post(`/movies-saved/remove`, {movie: movieToSend})
-            .then((response) => {
-                console.log(response)
-            })
-            .catch((error) => {
-                console.error(error)
-                //setSaved(true)
-            })
-            console.log("Movie Removed")
+            //console.log("Removing Movie: ", movieToSend)
+            await axiosAuth.post(`/movies-saved/remove`, {movie: movieToSend})
+                .then((response) => {
+                    //console.log(response)
+                })
+                .catch((error) => {
+                    //console.error(error)
+                    //setSaved(true)
+                })
+                .finally(() =>{
+                    setTimeout(() =>{setSaveDebounce(false)}, 1000)
+                })
+                //console.log("Movie Removed")
         } 
     }
 
     useEffect(() => {
+        
+        const isMounted = true
+        const controller = new AbortController()
+
         window.scrollTo(0, 0)
+
         
         const fetchMovie = async () => {
             
@@ -106,7 +121,7 @@ function MoviePage() {
             );
             
             const moviesJson = await response.json()
-            console.log(moviesJson)   
+            //console.log(moviesJson)   
             setMovie(moviesJson)
             
             }
@@ -131,7 +146,7 @@ function MoviePage() {
             );
             
             const recArray = await response.json()
-            console.log(recArray)
+            //console.log(recArray)
             
             if (recArray){
                 if (recArray.results){
@@ -145,10 +160,32 @@ function MoviePage() {
             }
         }
 
+        const isMovieSaved = async () => {
+            console.log("Checking if movie is saved")
+            await axiosAuth.post(`/movies-saved/one`, {movieId: movieid})
+                .then((response) => {
+                    if (response.data.movie){
+                        isMounted && setSaved(true)
+                    }
+                })
+                .catch((error) => {
+                    console.error(error)
+                    //setSaved(false)
+                })
+
+    }
+
         if (movieid){
             fetchMovie({setIsLoading, setMovie, movieid})
             fetcRecs()
+            isMovieSaved()
         }
+
+        return () => {
+            isMounted = false
+            controller.abort()
+        }
+
     }, [movieid])
 
     if (isLoading){
