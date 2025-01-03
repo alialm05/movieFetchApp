@@ -5,6 +5,8 @@ import MoviePage from './routes/MoviePage.jsx'
 import Movies from "./routes/Movies.jsx"
 import Search from "./routes/Search.jsx"
 import Login from "./routes/Login.jsx"
+import SignUp from './routes/Signup.jsx'
+import MoviesSaved from './routes/MoviesSaved.jsx'
 
 import { createBrowserRouter } from "react-router-dom"
 
@@ -18,4 +20,6 @@ export const router = createBrowserRouter([
   {path: "/genres/:genreid", element : <GenreMovies/>},
   {path: "/movie_page/:movieid", element : <MoviePage/>},
   {path: "/login", element : <Login/>},
+  {path: "/signup", element : <SignUp/>},
+  {path: "/movies_saved", element : <MoviesSaved/>},
 ],)

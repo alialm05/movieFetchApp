@@ -43,7 +43,8 @@ function Movies(props = defaultProps){
 
     // -- Fetch Movies, Change Page, Change Qury Type
     useEffect(() => {
-        //console.log(props.queryType, QueryType)
+        
+        console.log("movies mounted")
 
         const fetchMovies = async () => {
             

@@ -23,7 +23,10 @@ function Card(props = defaultProps){
         return(
             <div>
                 <div className="card">
-                    <Link className='m-0 py-0 h-full w-48 grid rounded-md' key={props.id} to={`/movie_page/${props.id}`}>
+                    <Link
+                    className='m-0 py-0 h-full w-48 grid rounded-md' 
+                    key={props.id} 
+                    to={`/movie_page/${props.id}`}>
                         
                         <div className='m-0'>
 
