@@ -41,7 +41,7 @@ function SignUp(){
             
             <Header/>
 
-            <div className="w-screen flex flex-col items-center justify-center mt-10 mb-10">
+            <div className="w-full flex flex-col items-center justify-center mt-10 mb-10">
             
                 <h1 className="text-4xl text-center font-bold">Sign Up</h1>
 

@@ -11,7 +11,7 @@ const authRouter = require('./routes/auth');
 const cors = require('cors');
 
 const corsOptions = {
-    origin: process.env.FRONTEND_URL,
+    origin: [process.env.FRONTEND_URL_DEV, process.env.FRONTEND_URL_PREV, process.env.FRONTEND_URL_PRODUCTION],
     credentials: true,
     exposedHeaders: ['Authorization']
 }

@@ -103,7 +103,8 @@ function MoviePage() {
 
     useEffect(() => {
         
-        const isMounted = true
+        console.log("Movie Page Mounted")
+        let isMounted = true
         const controller = new AbortController()
 
         window.scrollTo(0, 0)

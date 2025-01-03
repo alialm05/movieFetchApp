@@ -170,10 +170,13 @@ button:focus-visible {
 .movie-list {
   list-style: none;
   text-align: center;
+  display: flexbox;
+  justify-content: space-between;
 }
 
 .genre-list {
   list-style: none;
+  text-align: center;
 }
 
 .genre-list li {

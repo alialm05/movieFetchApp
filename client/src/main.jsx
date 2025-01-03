@@ -5,14 +5,16 @@ import {router} from './router.jsx'
 
 import './index.css'
 import { AuthProvider } from './context/AuthProvider.jsx'
+import IsMobile from './context/IsMobile.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     
     <AuthProvider>
-    
+      
       <RouterProvider router={router}/>
-    
+
+      
     </AuthProvider>
 
   </React.StrictMode>,
