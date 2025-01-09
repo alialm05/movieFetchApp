@@ -1,29 +1,119 @@
-
 import Header from "../components/Header.jsx";
 import Card from "../components/Card.jsx";
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import { useParams } from "react-router-dom"
+import { Icon } from "react-icons-kit";
+import { heart } from "react-icons-kit/icomoon/heart";
+
 import movieImg from "../assets/movieplace.png"
 
-const imgUrl = "https://image.tmdb.org/t/p/original/";
+import { imgUrl } from "../info/requests.js";
 const BaseUrl = 'https://api.themoviedb.org/3/movie/';
 import options from '../info/requests.js'
-console.log(options)
+import useAxiosAuth from "../hooks/useAxiosAuth"
+import AuthContext from "../context/AuthProvider.jsx";
+
+function Heart({saved, updateMovieList}){
+
+    let heartColor = saved === true ? 'red' : 'grey'
+    
+    //console.log(heartColor)
+    
+    /*useEffect(() => {
+        console.log("Saved: ", saved)
+    }, [])*/
+
+    return (
+        <div className="right-0 px-3">
+
+            <button 
+            style={{ color: heartColor}}
+            onClick={() => {
+                updateMovieList()
+                }}
+            className="flex-col right-0 items-center justify-center font-bold mt-5 mr-0 rounded-full">
+                <Icon size={32} icon={heart}/>
+            </button>
+        </div>
+    )
+}
 
 function MoviePage() {
-
+    
     const {movieid} = useParams()
     const [recommendations, setRecommendations] = useState([])
     const [movie, setMovie] = useState()
     const [isLoading, setIsLoading] = useState(false);
+    const [saved, setSaved] = useState(false)
+    const [saveDebounce, setSaveDebounce] = useState(false)
+    
+    const {auth} = useContext(AuthContext)
+    const axiosAuth = useAxiosAuth()
+    
+    
+    const updateMovieList = async () => {
+        
+        if (saveDebounce || !auth.accessToken){
+            return
+        }
+        setSaveDebounce(true)
+        console.log("toggling Movie save")
+
+        const movieToSend = {
+            id: movieid,
+            title: movie.title,
+            poster_path: movie.poster_path,
+            release_date: movie.release_date,
+            vote_average: movie.vote_average
+        }
+        
+        if (!saved){
+            setSaved(true)
+            
+            await axiosAuth.post(`/movies-saved/add`, {movie: movieToSend})
+                .then((response) => {
+                    //console.log(response)
+                    //console.log("Movie Saved")
+                })
+                .catch((error) => {
+                    console.error(error)
+                    //setSaved(false)
+                }).finally(() => {
+                    setTimeout(() =>{setSaveDebounce(false)}, 1000)
+                })
+
+        }
+        else {
+            setSaved(false)
+            //console.log("Removing Movie: ", movieToSend)
+            await axiosAuth.post(`/movies-saved/remove`, {movie: movieToSend})
+                .then((response) => {
+                    //console.log(response)
+                })
+                .catch((error) => {
+                    //console.error(error)
+                    //setSaved(true)
+                })
+                .finally(() =>{
+                    setTimeout(() =>{setSaveDebounce(false)}, 1000)
+                })
+                //console.log("Movie Removed")
+        } 
+    }
 
     useEffect(() => {
+        
+        console.log("Movie Page Mounted")
+        let isMounted = true
+        const controller = new AbortController()
+
         window.scrollTo(0, 0)
 
+        
         const fetchMovie = async () => {
             
             setIsLoading(true);
-
+        
             try {
                     
             const response = await fetch(
@@ -32,7 +122,7 @@ function MoviePage() {
             );
             
             const moviesJson = await response.json()
-            console.log(moviesJson)   
+            //console.log(moviesJson)   
             setMovie(moviesJson)
             
             }
@@ -41,10 +131,11 @@ function MoviePage() {
             } finally { 
                 setIsLoading(false);
             }
-
+        
             setIsLoading(false);
-
+        
         }
+        
 
         const fetcRecs = async () => {
 
@@ -56,7 +147,7 @@ function MoviePage() {
             );
             
             const recArray = await response.json()
-            console.log(recArray)
+            //console.log(recArray)
             
             if (recArray){
                 if (recArray.results){
@@ -70,10 +161,32 @@ function MoviePage() {
             }
         }
 
+        const isMovieSaved = async () => {
+            console.log("Checking if movie is saved")
+            await axiosAuth.post(`/movies-saved/one`, {movieId: movieid})
+                .then((response) => {
+                    if (response.data.movie){
+                        isMounted && setSaved(true)
+                    }
+                })
+                .catch((error) => {
+                    console.error(error)
+                    //setSaved(false)
+                })
+
+    }
+
         if (movieid){
-            fetchMovie()
+            fetchMovie({setIsLoading, setMovie, movieid})
             fetcRecs()
+            isMovieSaved()
         }
+
+        return () => {
+            isMounted = false
+            controller.abort()
+        }
+
     }, [movieid])
 
     if (isLoading){
@@ -99,6 +212,7 @@ function MoviePage() {
             </li>)
         })
     }
+    
 
     return (
         <div className="movie-page">
@@ -119,13 +233,18 @@ function MoviePage() {
                     </div>
 
 
-                </div>
+                </div>                
 
-                
 
                 <section className="font-medium my-5">
                     
-                    <h1 className="stroke-black text-white font-bold my-5">{movie && movie.title || "Movie Not Found"}</h1>
+                    <div className="flex flex-row items-center justify-center">
+
+                        <h1 className="stroke-black text-white font-bold my-5 justify-center items-center">{movie && movie.title || "Movie Not Found"}</h1>
+                        <Heart updateMovieList={updateMovieList} saved={saved}/>
+                        
+                    </div>
+                    
                     <p className="flex items-start justify-center opacity-30 font-normal">
                         {(movie && movie.tagline) &&  `\"${movie.tagline}\"` || ""}</p>
                     
@@ -168,10 +287,14 @@ function MoviePage() {
                             </ul>
                         </div>
 
+
                     </ul>
 
                 </section>  
 
+                
+
+                
                 <section className="font-medium my-20">
 
                     <label className="opacity-80 flex items-center justify-center text-white mt-5 mb-20 text-4xl ">Recommendations</label>

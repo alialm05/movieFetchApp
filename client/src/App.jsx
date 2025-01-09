@@ -6,7 +6,6 @@ function App() {
   return(
     <>
         <Movies queryType={"upcoming"}/>
-
         <Outlet/> 
     </>
     )
